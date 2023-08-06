@@ -14,9 +14,36 @@ class MachineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void openDialogForMachine() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text(
+              'Confirm Deletion',
+            ),
+            content: const Text(
+              'Are you sure you want to delete these assets?',
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Cancel'),
+                onPressed: () {},
+              ),
+              TextButton(
+                child: const Text('Delete'),
+                onPressed: () {},
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return InkWell(
       onTap: () {
-        print('machine $machineNumber tapped');
+        // print('machine $machineNumber tapped');
+        openDialogForMachine();
       },
       child: Container(
         height: height ?? 80,
