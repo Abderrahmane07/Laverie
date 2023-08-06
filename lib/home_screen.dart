@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'machine_button_widget.dart';
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
@@ -19,6 +21,7 @@ class MyHomePage extends StatelessWidget {
             ),
             const Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -31,15 +34,36 @@ class MyHomePage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 120),
-                  MachineButton(machineNumber: '8/9'),
-                  MachineButton(machineNumber: '10'),
+                  MachineButton(
+                    machineNumber: '8/9',
+                    width: 90,
+                    height: 90,
+                  ),
+                  MachineButton(
+                    machineNumber: '10',
+                    width: 90,
+                    height: 90,
+                  ),
                   SizedBox(height: 40),
-                  MachineButton(machineNumber: ''),
+                  MachineButton(
+                    machineNumber: '',
+                    width: 20,
+                  ),
                   Spacer(),
                   Row(
                     children: [
-                      MachineButton(machineNumber: 'cookie'),
-                      MachineButton(machineNumber: 'coffee'),
+                      SizedBox(width: 40),
+                      MachineButton(
+                        machineNumber: 'cookie',
+                        width: 90,
+                        height: 90,
+                      ),
+                      SizedBox(width: 40),
+                      MachineButton(
+                        machineNumber: 'coffee',
+                        width: 90,
+                        height: 90,
+                      ),
                     ],
                   ),
                 ],
@@ -53,35 +77,6 @@ class MyHomePage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class MachineButton extends StatelessWidget {
-  final String machineNumber;
-  const MachineButton({
-    Key? key,
-    required this.machineNumber,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        print('machine $machineNumber tapped');
-      },
-      child: Container(
-        height: 80,
-        width: MediaQuery.of(context).size.width / 6,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.black,
-            width: 1,
-          ),
-        ),
-        child: Center(child: Text(machineNumber)),
       ),
     );
   }
