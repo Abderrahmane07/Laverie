@@ -30,8 +30,17 @@ class MyHomePage extends StatelessWidget {
                       MachineButton(machineNumber: '6'),
                     ],
                   ),
-                  Text(
-                    'Laverie details here',
+                  SizedBox(height: 120),
+                  MachineButton(machineNumber: '8/9'),
+                  MachineButton(machineNumber: '10'),
+                  SizedBox(height: 40),
+                  MachineButton(machineNumber: ''),
+                  Spacer(),
+                  Row(
+                    children: [
+                      MachineButton(machineNumber: 'cookie'),
+                      MachineButton(machineNumber: 'coffee'),
+                    ],
                   ),
                 ],
               ),
