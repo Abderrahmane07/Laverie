@@ -58,17 +58,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                           children: [
                             MachineButton(
-                                machineNumber: '6', machine: machine5),
+                                machineNumber: '6', machine: machine6),
                             MachineButton(
-                                machineNumber: '5', machine: machine4),
+                                machineNumber: '5', machine: machine5),
                             MachineButton(
-                                machineNumber: '4', machine: machine3),
+                                machineNumber: '4', machine: machine4),
                             MachineButton(
-                                machineNumber: '3', machine: machine2),
+                                machineNumber: '3', machine: machine3),
                             MachineButton(
-                                machineNumber: '2', machine: machine1),
+                                machineNumber: '2', machine: machine2),
                             MachineButton(
-                                machineNumber: '1', machine: machine6),
+                                machineNumber: '1', machine: machine1),
                           ],
                         ),
                         const SizedBox(height: 120),
@@ -85,10 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           machine: machine2,
                         ),
                         const SizedBox(height: 40),
-                        MachineButton(
-                          machineNumber: '',
+                        Container(
+                          height: 80,
                           width: 20,
-                          machine: machine2,
+                          color: Colors.white,
                         ),
                         const Spacer(),
                         Row(

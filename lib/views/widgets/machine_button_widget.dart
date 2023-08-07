@@ -18,9 +18,8 @@ class MachineButton extends StatelessWidget {
 
   int getRemainingTime() {
     final remaining = (machine.finishesAt.difference(DateTime.now())).inMinutes;
-    // if (remaining > 0)
-    return remaining;
-    // return 0;
+    if (remaining > 0) return remaining;
+    return 0;
   }
 
   @override
@@ -124,16 +123,15 @@ class MachineButton extends StatelessWidget {
         ),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(machineNumber),
-              // Text(machine.isFunctional.toString()),
-              // Visibility(child: child, visible: machine.isFunctional),
+              const SizedBox(height: 10),
               if (machine.isFunctional && getRemainingTime() == 0)
                 const Icon(
                   Icons.check_circle,
                   color: Colors.green,
                 ),
-
               if (machine.isFunctional && getRemainingTime() > 0)
                 Text("${getRemainingTime().toString()} min",
                     style: const TextStyle(color: Colors.green)),
