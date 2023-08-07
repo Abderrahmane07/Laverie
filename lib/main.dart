@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'home_screen.dart';
+import 'views/screens/home_screen.dart';
 
 const supabaseUrl = 'https://oobuzeddpbkwmmxbriwm.supabase.co';
 const supabaseKey =

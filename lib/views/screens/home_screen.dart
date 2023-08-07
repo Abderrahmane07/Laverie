@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'machine_button_widget.dart';
+import '../widgets/machine_button_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
