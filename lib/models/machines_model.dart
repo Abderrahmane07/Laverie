@@ -24,13 +24,3 @@ class MachinesModel {
         finishesAt: DateTime.parse(json['finishes_at']));
   }
 }
-
-
-
-// is_running isRunning;
-
-// response;
-// machine1 = MachinesModel(response[0]['id'], response[0]['createdAt'],
-//     response[0]['washerieId'], response[0]['isFunctional'],
-//     response[0]['isRunning'], response[0]['finishesAt']);
-// machine2 =MachineModel.fromJson(response[1]);    

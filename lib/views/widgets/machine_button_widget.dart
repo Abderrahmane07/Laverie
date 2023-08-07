@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../models/machines_model.dart';
+
 class MachineButton extends StatelessWidget {
   final String machineNumber;
   final double? height;
+  final MachinesModel machine;
   final double? width;
 
   const MachineButton({
     Key? key,
     required this.machineNumber,
+    required this.machine,
     this.height,
     this.width,
   }) : super(key: key);
@@ -111,7 +115,14 @@ class MachineButton extends StatelessWidget {
             width: 1,
           ),
         ),
-        child: Center(child: Text(machineNumber)),
+        child: Center(
+          child: Column(
+            children: [
+              Text(machineNumber),
+              Text(machine.isFunctional.toString()),
+            ],
+          ),
+        ),
       ),
     );
   }
