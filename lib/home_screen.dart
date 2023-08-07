@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'machine_button_widget.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _machinesData();
+  }
+
+  Future<void> _machinesData() async {
+    final response = await Supabase.instance.client
+        .from('machines')
+        .select()
+        .eq('washerie_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5');
+    print(response);
+  }
 
   @override
   Widget build(BuildContext context) {
