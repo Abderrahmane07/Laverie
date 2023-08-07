@@ -19,19 +19,53 @@ class MachineButton extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text(
-              'Confirm Deletion',
+            title: Text(
+              "L'état de la machine $machineNumber est:",
             ),
-            content: const Text(
-              'Are you sure you want to delete these assets?',
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("Libre et fonctionnelle"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      child: const Text('Libre'),
+                      onPressed: () {},
+                    ),
+                    TextButton(
+                      child: const Text('En cours'),
+                      onPressed: () {},
+                    ),
+                    TextButton(
+                      child: const Text('Hors service'),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      child: const Text('En panne'),
+                      onPressed: () {},
+                    ),
+                    TextButton(
+                      child: const Text('En maintenance'),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ],
             ),
             actions: [
               TextButton(
-                child: const Text('Cancel'),
+                child: const Text('Signaler un problème'),
                 onPressed: () {},
               ),
               TextButton(
-                child: const Text('Delete'),
+                child: const Text('Okey'),
                 onPressed: () {},
               ),
             ],
