@@ -25,12 +25,12 @@ class MyHomePage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      MachineButton(machineNumber: '1'),
-                      MachineButton(machineNumber: '2'),
-                      MachineButton(machineNumber: '3'),
-                      MachineButton(machineNumber: '4'),
-                      MachineButton(machineNumber: '5'),
                       MachineButton(machineNumber: '6'),
+                      MachineButton(machineNumber: '5'),
+                      MachineButton(machineNumber: '4'),
+                      MachineButton(machineNumber: '3'),
+                      MachineButton(machineNumber: '2'),
+                      MachineButton(machineNumber: '1'),
                     ],
                   ),
                   SizedBox(height: 120),

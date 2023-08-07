@@ -26,33 +26,17 @@ class MachineButton extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text("Libre et fonctionnelle"),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      child: const Text('Libre'),
-                      onPressed: () {},
-                    ),
-                    TextButton(
-                      child: const Text('En cours'),
-                      onPressed: () {},
-                    ),
-                    TextButton(
-                      child: const Text('Hors service'),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(
-                      child: const Text('En panne'),
-                      onPressed: () {},
+                    const SizedBox(width: 20),
+                    const Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
                     ),
-                    TextButton(
-                      child: const Text('En maintenance'),
+                    IconButton(
+                      icon: const Icon(Icons.edit),
                       onPressed: () {},
                     ),
                   ],
@@ -62,11 +46,50 @@ class MachineButton extends StatelessWidget {
             actions: [
               TextButton(
                 child: const Text('Signaler un problème'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Signaler un problème'),
+                        content: const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Veuillez décrire le problème:'),
+                            SizedBox(height: 20),
+                            TextField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Description',
+                              ),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            child: const Text('Annuler'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Envoyer'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
               TextButton(
                 child: const Text('Okey'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ],
           );
@@ -76,7 +99,6 @@ class MachineButton extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        // print('machine $machineNumber tapped');
         openDialogForMachine();
       },
       child: Container(
