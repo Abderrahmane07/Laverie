@@ -30,14 +30,13 @@ class _MyHomePageState extends State<MyHomePage> {
     machine4 = MachinesModel.fromJson(response[3]);
     machine5 = MachinesModel.fromJson(response[4]);
     machine6 = MachinesModel.fromJson(response[5]);
-    print("machine1: $machine1");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 115, 125, 212),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -47,7 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.grey,
               child: const Center(child: Text('ad zone')),
             ),
-            Expanded(
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 160,
               child: FutureBuilder(
                 future: _machinesData(),
                 builder: (context, snapshot) {
@@ -71,22 +71,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                 machineNumber: '1', machine: machine1),
                           ],
                         ),
-                        const SizedBox(height: 120),
+                        const SizedBox(height: 80),
                         MachineButton(
                           machineNumber: '8/9',
-                          width: 90,
-                          height: 90,
+                          width: 80,
+                          height: 80,
                           machine: machine1,
                         ),
                         MachineButton(
                           machineNumber: '10',
-                          width: 90,
-                          height: 90,
+                          width: 80,
+                          height: 80,
                           machine: machine2,
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 32),
                         Container(
-                          height: 80,
+                          height: 64,
                           width: 20,
                           color: Colors.white,
                         ),
@@ -96,15 +96,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             const SizedBox(width: 40),
                             MachineButton(
                               machineNumber: 'cookie',
-                              width: 90,
-                              height: 90,
+                              width: 80,
+                              height: 80,
                               machine: machine2,
                             ),
                             const SizedBox(width: 40),
                             MachineButton(
                               machineNumber: 'coffee',
-                              width: 90,
-                              height: 90,
+                              width: 80,
+                              height: 80,
                               machine: machine2,
                             ),
                           ],

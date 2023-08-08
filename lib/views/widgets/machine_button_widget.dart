@@ -38,6 +38,7 @@ class MachineButton extends StatelessWidget {
                 const Text('Veuillez décrire le problème:'),
                 const SizedBox(height: 20),
                 TextField(
+                  textCapitalization: TextCapitalization.sentences,
                   controller: descriptionController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
