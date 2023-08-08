@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/machines_model.dart';
 
@@ -52,8 +53,17 @@ class MachineButton extends StatelessWidget {
               ),
               TextButton(
                 child: const Text('Envoyer'),
-                onPressed: () {
-                  Navigator.of(context).pop();
+                onPressed: () async {
+                  await Supabase.instance.client.from('problems').insert(
+                    {
+                      'machine_id': machine.id,
+                      'text_description': 'description',
+                      'created_at': DateTime.now().toString(),
+                    },
+                  );
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                 },
               ),
             ],
