@@ -25,19 +25,21 @@ class MachineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController descriptionController = TextEditingController();
     void openDialogfForSignalingAProblem() {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Signaler un problème'),
-            content: const Column(
+            content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Veuillez décrire le problème:'),
-                SizedBox(height: 20),
+                const Text('Veuillez décrire le problème:'),
+                const SizedBox(height: 20),
                 TextField(
-                  decoration: InputDecoration(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Description',
                   ),
@@ -54,10 +56,11 @@ class MachineButton extends StatelessWidget {
               TextButton(
                 child: const Text('Envoyer'),
                 onPressed: () async {
+                  final description = descriptionController.text;
                   await Supabase.instance.client.from('problems').insert(
                     {
                       'machine_id': machine.id,
-                      'text_description': 'description',
+                      'text_description': description,
                       'created_at': DateTime.now().toString(),
                     },
                   );
