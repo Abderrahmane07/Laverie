@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../models/machines_model.dart';
 
-class MachineButton extends StatelessWidget {
+class MachineButton extends StatefulWidget {
   final String machineNumber;
   final double? height;
   final MachinesModel machine;
@@ -17,10 +19,35 @@ class MachineButton extends StatelessWidget {
     this.width,
   }) : super(key: key);
 
-  int getRemainingTime() {
-    final remaining = (machine.finishesAt.difference(DateTime.now())).inMinutes;
-    if (remaining > 0) return remaining;
-    return 0;
+  @override
+  State<MachineButton> createState() => _MachineButtonState();
+}
+
+class _MachineButtonState extends State<MachineButton> {
+  late Timer _timer;
+  int remainingTimeInMinutes = 0;
+
+  void updateRemainingTime() {
+    final remaining =
+        (widget.machine.finishesAt.difference(DateTime.now())).inMinutes;
+    setState(() {
+      remainingTimeInMinutes = remaining > 0 ? remaining : 0;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    updateRemainingTime();
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      updateRemainingTime();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -60,7 +87,7 @@ class MachineButton extends StatelessWidget {
                   final description = descriptionController.text;
                   await Supabase.instance.client.from('problems').insert(
                     {
-                      'machine_id': machine.id,
+                      'machine_id': widget.machine.id,
                       'text_description': description,
                       'created_at': DateTime.now().toString(),
                     },
@@ -82,28 +109,28 @@ class MachineButton extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "L'état de la machine $machineNumber est:",
+              "L'état de la machine ${widget.machineNumber} est:",
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (machine.isFunctional && getRemainingTime() == 0)
+                if (widget.machine.isFunctional && remainingTimeInMinutes == 0)
                   const Text("Libre et fonctionnelle"),
-                if (machine.isFunctional && getRemainingTime() > 0)
+                if (widget.machine.isFunctional && remainingTimeInMinutes > 0)
                   Text(
-                      "Fonctionnelle, temps restant :${getRemainingTime().toString()}min"),
-                if (!machine.isFunctional) const Text("Hors service"),
+                      "Fonctionnelle, temps restant :${remainingTimeInMinutes.toString()}min"),
+                if (!widget.machine.isFunctional) const Text("Hors service"),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const SizedBox(width: 20),
-                    if (machine.isFunctional)
+                    if (widget.machine.isFunctional)
                       const Icon(
                         Icons.check_circle,
                         color: Colors.green,
                       ),
-                    if (!machine.isFunctional)
+                    if (!widget.machine.isFunctional)
                       const Icon(
                         Icons.error,
                         color: Colors.red,
@@ -141,8 +168,8 @@ class MachineButton extends StatelessWidget {
         openDialogForMachine();
       },
       child: Container(
-        height: height ?? 80,
-        width: width ?? MediaQuery.of(context).size.width / 6,
+        height: widget.height ?? 80,
+        width: widget.width ?? MediaQuery.of(context).size.width / 6,
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
@@ -154,17 +181,17 @@ class MachineButton extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(machineNumber),
+              Text(widget.machineNumber),
               const SizedBox(height: 10),
-              if (machine.isFunctional && getRemainingTime() == 0)
+              if (widget.machine.isFunctional && remainingTimeInMinutes == 0)
                 const Icon(
                   Icons.check_circle,
                   color: Colors.green,
                 ),
-              if (machine.isFunctional && getRemainingTime() > 0)
-                Text("${getRemainingTime().toString()} min",
+              if (widget.machine.isFunctional && remainingTimeInMinutes > 0)
+                Text("${remainingTimeInMinutes.toString()} min",
                     style: const TextStyle(color: Colors.green)),
-              if (!machine.isFunctional)
+              if (!widget.machine.isFunctional)
                 const Icon(
                   Icons.error,
                   color: Colors.red,
