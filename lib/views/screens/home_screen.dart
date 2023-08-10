@@ -18,7 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final response = await Supabase.instance.client
         .from('machines')
         .select()
-        .eq('washerie_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5')
+        .eq('laundry_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5')
         .order('id');
 
     final data = response as List<dynamic>;

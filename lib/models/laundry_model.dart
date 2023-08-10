@@ -1,4 +1,4 @@
-class WasheryModel {
+class LaundryModel {
   String id;
   DateTime createdAt;
   String ownerNumber;
@@ -7,7 +7,7 @@ class WasheryModel {
   String name;
   String location;
 
-  WasheryModel(
+  LaundryModel(
       {required this.id,
       required this.createdAt,
       required this.ownerNumber,
@@ -16,8 +16,8 @@ class WasheryModel {
       required this.name,
       required this.location});
 
-  factory WasheryModel.fromJson(Map<String, dynamic> json) {
-    return WasheryModel(
+  factory LaundryModel.fromJson(Map<String, dynamic> json) {
+    return LaundryModel(
         id: json['id'],
         createdAt: DateTime.parse(json['created_at']),
         ownerNumber: json['owner_number'],
