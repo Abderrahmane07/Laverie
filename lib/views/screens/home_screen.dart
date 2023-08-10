@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laverie/models/machines_model.dart';
+import 'package:laverie/models/machine_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../widgets/machine_button_widget.dart';
@@ -12,25 +12,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late MachinesModel machine1;
-  late MachinesModel machine2;
-  late MachinesModel machine3;
-  late MachinesModel machine4;
-  late MachinesModel machine5;
-  late MachinesModel machine6;
+  late List<MachineModel> machinesList = [];
+
   Future<void> _machinesData() async {
     final response = await Supabase.instance.client
         .from('machines')
         .select()
         .eq('washerie_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5')
         .order('id');
-    print(response);
-    machine1 = MachinesModel.fromJson(response[0]);
-    machine2 = MachinesModel.fromJson(response[1]);
-    machine3 = MachinesModel.fromJson(response[2]);
-    machine4 = MachinesModel.fromJson(response[3]);
-    machine5 = MachinesModel.fromJson(response[4]);
-    machine6 = MachinesModel.fromJson(response[5]);
+
+    final data = response as List<dynamic>;
+
+    machinesList =
+        data.map((machineData) => MachineModel.fromJson(machineData)).toList();
   }
 
   @override
@@ -57,33 +51,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children: [
-                            MachineButton(
-                                machineNumber: '6', machine: machine6),
-                            MachineButton(
-                                machineNumber: '5', machine: machine5),
-                            MachineButton(
-                                machineNumber: '4', machine: machine4),
-                            MachineButton(
-                                machineNumber: '3', machine: machine3),
-                            MachineButton(
-                                machineNumber: '2', machine: machine2),
-                            MachineButton(
-                                machineNumber: '1', machine: machine1),
-                          ],
+                          children: List.generate(machinesList.length, (index) {
+                            int machineNumber = machinesList.length - index;
+                            return MachineButton(
+                              machineNumber: machineNumber.toString(),
+                              machine: machinesList[machineNumber - 1],
+                            );
+                          }),
                         ),
                         const SizedBox(height: 80),
                         MachineButton(
                           machineNumber: '8/9',
                           width: 80,
                           height: 80,
-                          machine: machine1,
+                          machine: machinesList[0],
                         ),
                         MachineButton(
                           machineNumber: '10',
                           width: 80,
                           height: 80,
-                          machine: machine2,
+                          machine: machinesList[1],
                         ),
                         const SizedBox(height: 32),
                         Container(
@@ -99,14 +86,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               machineNumber: 'cookie',
                               width: 80,
                               height: 80,
-                              machine: machine2,
+                              machine: machinesList[1],
                             ),
                             const SizedBox(width: 40),
                             MachineButton(
                               machineNumber: 'coffee',
                               width: 80,
                               height: 80,
-                              machine: machine2,
+                              machine: machinesList[1],
                             ),
                           ],
                         ),

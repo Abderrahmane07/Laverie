@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../models/machines_model.dart';
+import '../../models/machine_model.dart';
 
 class MachineButton extends StatefulWidget {
   final String machineNumber;
   final double? height;
-  final MachinesModel machine;
+  final MachineModel machine;
   final double? width;
 
   const MachineButton({
@@ -65,6 +65,10 @@ class _MachineButtonState extends State<MachineButton> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Veuillez décrire le problème:'),
+                const SizedBox(height: 20),
+                Row(
+                  children: [],
+                ),
                 const SizedBox(height: 20),
                 TextField(
                   textCapitalization: TextCapitalization.sentences,

@@ -1,4 +1,4 @@
-class MachinesModel {
+class MachineModel {
   String id;
   DateTime createdAt;
   String washerieId;
@@ -6,7 +6,7 @@ class MachinesModel {
   bool isRunning;
   DateTime finishesAt;
 
-  MachinesModel(
+  MachineModel(
       {required this.id,
       required this.createdAt,
       required this.washerieId,
@@ -14,8 +14,8 @@ class MachinesModel {
       required this.isRunning,
       required this.finishesAt});
 
-  factory MachinesModel.fromJson(Map<String, dynamic> json) {
-    return MachinesModel(
+  factory MachineModel.fromJson(Map<String, dynamic> json) {
+    return MachineModel(
         id: json['id'],
         createdAt: DateTime.parse(json['created_at']),
         washerieId: json['washerie_id'],
