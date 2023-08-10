@@ -6,14 +6,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/machine_model.dart';
 
 class MachineButton extends StatefulWidget {
-  final String machineNumber;
   final double? height;
   final MachineModel machine;
   final double? width;
 
   const MachineButton({
     Key? key,
-    required this.machineNumber,
     required this.machine,
     this.height,
     this.width,
@@ -171,7 +169,7 @@ class _MachineButtonState extends State<MachineButton> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              "L'état de la machine ${widget.machineNumber} est:",
+              "L'état de la machine ${widget.machine.machineName} est:",
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -246,7 +244,7 @@ class _MachineButtonState extends State<MachineButton> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(widget.machineNumber),
+              Text(widget.machine.machineName),
               const SizedBox(height: 10),
               if (widget.machine.isFunctional && remainingTimeInMinutes == 0)
                 const Icon(

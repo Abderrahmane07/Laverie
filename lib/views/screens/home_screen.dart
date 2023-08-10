@@ -52,22 +52,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Row(
                           children: List.generate(machinesList.length, (index) {
-                            int machineNumber = machinesList.length - index;
+                            int machineNumber = machinesList.length - index - 1;
                             return MachineButton(
-                              machineNumber: machineNumber.toString(),
-                              machine: machinesList[machineNumber - 1],
+                              machine: machinesList[machineNumber],
                             );
                           }),
                         ),
                         const SizedBox(height: 80),
                         MachineButton(
-                          machineNumber: '8/9',
+                          // machineNumber: '8/9',
                           width: 80,
                           height: 80,
                           machine: machinesList[0],
                         ),
                         MachineButton(
-                          machineNumber: '10',
+                          // machineNumber: '10',
                           width: 80,
                           height: 80,
                           machine: machinesList[1],
@@ -83,14 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             const SizedBox(width: 40),
                             MachineButton(
-                              machineNumber: 'cookie',
+                              // machineNumber: 'cookie',
                               width: 80,
                               height: 80,
                               machine: machinesList[1],
                             ),
                             const SizedBox(width: 40),
                             MachineButton(
-                              machineNumber: 'coffee',
+                              // machineNumber: 'coffee',
                               width: 80,
                               height: 80,
                               machine: machinesList[1],
