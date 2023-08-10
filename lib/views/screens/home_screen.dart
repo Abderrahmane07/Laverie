@@ -22,7 +22,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final response = await Supabase.instance.client
         .from('machines')
         .select()
-        .eq('washerie_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5');
+        .eq('washerie_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5')
+        .order('id');
     print(response);
     machine1 = MachinesModel.fromJson(response[0]);
     machine2 = MachinesModel.fromJson(response[1]);

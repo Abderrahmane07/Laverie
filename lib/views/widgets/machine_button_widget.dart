@@ -29,7 +29,8 @@ class _MachineButtonState extends State<MachineButton> {
 
   void updateRemainingTime() {
     final remaining =
-        (widget.machine.finishesAt.difference(DateTime.now())).inMinutes;
+        (widget.machine.finishesAt.difference(DateTime.now().toUtc()))
+            .inMinutes;
     setState(() {
       remainingTimeInMinutes = remaining > 0 ? remaining : 0;
     });
@@ -53,6 +54,7 @@ class _MachineButtonState extends State<MachineButton> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController descriptionController = TextEditingController();
+    final TextEditingController updatingController = TextEditingController();
     void openDialogfForSignalingAProblem() {
       showDialog(
         context: context,
@@ -89,9 +91,65 @@ class _MachineButtonState extends State<MachineButton> {
                     {
                       'machine_id': widget.machine.id,
                       'text_description': description,
-                      'created_at': DateTime.now().toString(),
+                      'created_at': DateTime.now().toUtc().toString(),
                     },
                   );
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    void openDialogfUpdatingAMachine() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Changer le temps restant'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Combien de temps reste-t-il ?'),
+                const SizedBox(height: 20),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  textCapitalization: TextCapitalization.sentences,
+                  controller: updatingController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: '66 min',
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Annuler'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Mettre à jour'),
+                onPressed: () async {
+                  final updating = updatingController.text;
+                  await Supabase.instance.client.from('machines').update(
+                    {
+                      'finishes_at': (DateTime.now()
+                              .toUtc()
+                              .add(Duration(minutes: int.parse(updating))))
+                          .toString(),
+                    },
+                  ).eq('id', widget.machine.id);
+                  print("id: ${widget.machine.id}");
+                  print('updating: $updating');
+                  print(
+                      'finishes_at: ${DateTime.now().toUtc().add(Duration(minutes: int.parse(updating)))}');
                   if (context.mounted) {
                     Navigator.of(context).pop();
                   }
@@ -137,7 +195,10 @@ class _MachineButtonState extends State<MachineButton> {
                       ),
                     IconButton(
                       icon: const Icon(Icons.edit),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        openDialogfUpdatingAMachine();
+                      },
                     ),
                   ],
                 ),
