@@ -24,6 +24,7 @@ class MachineButton extends StatefulWidget {
 class _MachineButtonState extends State<MachineButton> {
   late Timer _timer;
   int remainingTimeInMinutes = 0;
+  bool? isChecked = false;
 
   void updateRemainingTime() {
     final remaining =
@@ -51,6 +52,7 @@ class _MachineButtonState extends State<MachineButton> {
 
   @override
   Widget build(BuildContext context) {
+    print('mamamam');
     final TextEditingController descriptionController = TextEditingController();
     final TextEditingController updatingController = TextEditingController();
     void openDialogfForSignalingAProblem() {
@@ -64,10 +66,6 @@ class _MachineButtonState extends State<MachineButton> {
               children: [
                 const Text('Veuillez décrire le problème:'),
                 const SizedBox(height: 20),
-                Row(
-                  children: [],
-                ),
-                const SizedBox(height: 20),
                 TextField(
                   textCapitalization: TextCapitalization.sentences,
                   controller: descriptionController,
@@ -75,6 +73,21 @@ class _MachineButtonState extends State<MachineButton> {
                     border: OutlineInputBorder(),
                     labelText: 'Description',
                   ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: isChecked,
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          isChecked = value;
+                        });
+                      },
+                    ),
+                    const Text('Mokoko en panne'),
+                  ],
                 ),
               ],
             ),
