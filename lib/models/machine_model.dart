@@ -1,10 +1,14 @@
 class MachineModel {
+  /* changes made to handle stacking machines. */
+
   String id;
   String machineName;
   DateTime createdAt;
   String laundryId;
   bool isFunctional;
   DateTime finishesAt;
+  int position;
+  int orderInPosition;
 
   MachineModel(
       {required this.id,
@@ -12,7 +16,9 @@ class MachineModel {
       required this.createdAt,
       required this.laundryId,
       required this.isFunctional,
-      required this.finishesAt});
+      required this.finishesAt,
+      required this.position,
+      required this.orderInPosition});
 
   factory MachineModel.fromJson(Map<String, dynamic> json) {
     return MachineModel(
@@ -21,6 +27,8 @@ class MachineModel {
         createdAt: DateTime.parse(json['created_at']),
         laundryId: json['laundry_id'],
         isFunctional: json['is_functional'],
-        finishesAt: DateTime.parse(json['finishes_at']));
+        finishesAt: DateTime.parse(json['finishes_at']),
+        position: json['position'],
+        orderInPosition: json['orderInPosition']);
   }
 }
