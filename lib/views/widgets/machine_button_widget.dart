@@ -164,26 +164,30 @@ class _MachineButtonState extends State<MachineButton> {
             TextButton(
               child: const Text('Envoyer'),
               onPressed: () async {
-                final description = descriptionController.text;
-                await Supabase.instance.client.from('problems').insert(
-                  {
-                    'machine_id': widget.machine.id,
-                    'text_description': description,
-                    'created_at': DateTime.now().toUtc().toString(),
-                  },
-                );
-                if (isCheckedProblem!) {
-                  await Supabase.instance.client.from('machines').update(
+                try {
+                  final description = descriptionController.text;
+                  await Supabase.instance.client.from('problems').insert(
                     {
-                      'is_functional': false,
+                      'machine_id': widget.machine.id,
+                      'text_description': description,
+                      'created_at': DateTime.now().toUtc().toString(),
                     },
-                  ).eq('id', widget.machine.id);
-                  // setState(() {
-                  widget.machine.isFunctional = false;
-                  // });
-                }
-                if (context.mounted) {
-                  Navigator.of(context).pop();
+                  );
+                  if (isCheckedProblem!) {
+                    await Supabase.instance.client.from('machines').update(
+                      {
+                        'is_functional': false,
+                      },
+                    ).eq('id', widget.machine.id);
+                    // setState(() {
+                    widget.machine.isFunctional = false;
+                    // });
+                  }
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                } catch (e) {
+                  print(e);
                 }
               },
             ),
@@ -241,24 +245,28 @@ class _MachineButtonState extends State<MachineButton> {
             TextButton(
               child: const Text('Mettre à jour'),
               onPressed: () async {
-                final updating = updatingController.text;
-                await Supabase.instance.client
-                    .from('machines')
-                    .update(isCheckedUpdate!
-                        ? {
-                            'finishes_at': (DateTime.now().toUtc().add(
-                                    Duration(minutes: int.parse(updating))))
-                                .toString(),
-                            'is_functional': true,
-                          }
-                        : {
-                            'finishes_at': (DateTime.now().toUtc().add(
-                                    Duration(minutes: int.parse(updating))))
-                                .toString(),
-                          })
-                    .eq('id', widget.machine.id);
-                if (context.mounted) {
-                  Navigator.of(context).pop();
+                try {
+                  final updating = updatingController.text;
+                  await Supabase.instance.client
+                      .from('machines')
+                      .update(isCheckedUpdate!
+                          ? {
+                              'finishes_at': (DateTime.now().toUtc().add(
+                                      Duration(minutes: int.parse(updating))))
+                                  .toString(),
+                              'is_functional': true,
+                            }
+                          : {
+                              'finishes_at': (DateTime.now().toUtc().add(
+                                      Duration(minutes: int.parse(updating))))
+                                  .toString(),
+                            })
+                      .eq('id', widget.machine.id);
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                } catch (e) {
+                  print(e);
                 }
               },
             ),
