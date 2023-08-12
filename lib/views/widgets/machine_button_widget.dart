@@ -6,8 +6,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/machine_model.dart';
 
 class MachineButton extends StatefulWidget {
-  final double? height;
   final MachineModel machine;
+  final double? height;
   final double? width;
 
   const MachineButton({
@@ -75,20 +75,18 @@ class _MachineButtonState extends State<MachineButton> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (value) {
-                        print(value);
-                        setState(() {
-                          isChecked = value;
-                        });
-                      },
-                    ),
-                    const Text('Mokoko en panne'),
-                  ],
-                ),
+                StatefulBuilder(builder: (context, _setState) {
+                  return CheckboxListTile(
+                    value: isChecked,
+                    onChanged: (value) {
+                      print(value);
+                      _setState(() {
+                        isChecked = value;
+                      });
+                    },
+                    title: const Text('Machine en panne'),
+                  );
+                }),
               ],
             ),
             actions: [
@@ -109,6 +107,13 @@ class _MachineButtonState extends State<MachineButton> {
                       'created_at': DateTime.now().toUtc().toString(),
                     },
                   );
+                  if (isChecked!) {
+                    await Supabase.instance.client.from('machines').update(
+                      {
+                        'is_functional': false,
+                      },
+                    ).eq('id', widget.machine.id);
+                  }
                   if (context.mounted) {
                     Navigator.of(context).pop();
                   }
@@ -161,10 +166,6 @@ class _MachineButtonState extends State<MachineButton> {
                           .toString(),
                     },
                   ).eq('id', widget.machine.id);
-                  print("id: ${widget.machine.id}");
-                  print('updating: $updating');
-                  print(
-                      'finishes_at: ${DateTime.now().toUtc().add(Duration(minutes: int.parse(updating)))}');
                   if (context.mounted) {
                     Navigator.of(context).pop();
                   }
