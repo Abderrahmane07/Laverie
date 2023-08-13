@@ -9,12 +9,16 @@ class MachineButton extends StatefulWidget {
   final MachineModel machine;
   final double? height;
   final double? width;
+  final bool isStacked;
+  final MachineModel? stackedMachine;
 
   const MachineButton({
     Key? key,
     required this.machine,
     this.height,
     this.width,
+    this.isStacked = false,
+    this.stackedMachine,
   }) : super(key: key);
 
   @override
@@ -57,9 +61,39 @@ class _MachineButtonState extends State<MachineButton> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        if (widget.isStacked == true) {
+          return AlertDialog(
+            title: const Text(
+              "Veuillez choisir la machine convenable :",
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MachineButton(
+                  machine: widget.machine,
+                  height: 200,
+                  width: 200,
+                ),
+                MachineButton(
+                  machine: widget.stackedMachine!,
+                  height: 200,
+                  width: 200,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                child: const Text('Okey'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
         return AlertDialog(
           title: Text(
-            "L'état de la machine ${widget.machine.machineName} est:",
+            "L'état de la machine ${widget.machine.machineName} est : ",
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -279,7 +313,6 @@ class _MachineButtonState extends State<MachineButton> {
   @override
   Widget build(BuildContext context) {
     print('mamamam');
-
     return InkWell(
       onTap: () {
         openDialogForMachine();
@@ -298,21 +331,30 @@ class _MachineButtonState extends State<MachineButton> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(widget.machine.machineName),
-              const SizedBox(height: 10),
-              if (widget.machine.isFunctional && remainingTimeInMinutes == 0)
-                const Icon(
-                  Icons.check_circle,
-                  color: Colors.green,
-                ),
-              if (widget.machine.isFunctional && remainingTimeInMinutes > 0)
-                Text("${remainingTimeInMinutes.toString()} min",
-                    style: const TextStyle(color: Colors.green)),
-              if (!widget.machine.isFunctional)
-                const Icon(
-                  Icons.error,
-                  color: Colors.red,
-                )
+              widget.isStacked
+                  ? Text(
+                      "${widget.machine.machineName} / ${widget.stackedMachine?.machineName}")
+                  : Text(widget.machine.machineName),
+              Visibility(
+                visible: !widget.isStacked,
+                child: Column(children: [
+                  const SizedBox(height: 10),
+                  if (widget.machine.isFunctional &&
+                      remainingTimeInMinutes == 0)
+                    const Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                  if (widget.machine.isFunctional && remainingTimeInMinutes > 0)
+                    Text("${remainingTimeInMinutes.toString()} min",
+                        style: const TextStyle(color: Colors.green)),
+                  if (!widget.machine.isFunctional)
+                    const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    )
+                ]),
+              ),
             ],
           ),
         ),

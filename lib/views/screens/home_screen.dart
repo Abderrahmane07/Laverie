@@ -15,16 +15,21 @@ class _MyHomePageState extends State<MyHomePage> {
   late List<MachineModel> machinesList = [];
 
   Future<void> _machinesData() async {
-    final response = await Supabase.instance.client
-        .from('machines')
-        .select()
-        .eq('laundry_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5')
-        .order('id');
+    try {
+      final response = await Supabase.instance.client
+          .from('machines')
+          .select()
+          .eq('laundry_id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5')
+          .order('machine_order', ascending: true);
 
-    final data = response as List<dynamic>;
+      final data = response as List<dynamic>;
 
-    machinesList =
-        data.map((machineData) => MachineModel.fromJson(machineData)).toList();
+      machinesList = data
+          .map((machineData) => MachineModel.fromJson(machineData))
+          .toList();
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -51,25 +56,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          children: List.generate(machinesList.length, (index) {
-                            int machineNumber = machinesList.length - index - 1;
+                          children: List.generate(6, (index) {
+                            int machineNumber = 6 - index - 1;
                             return MachineButton(
                               machine: machinesList[machineNumber],
                             );
-                          }),
+                          }).reversed.toList(),
                         ),
                         const SizedBox(height: 80),
                         MachineButton(
-                          // machineNumber: '8/9',
                           width: 80,
                           height: 80,
-                          machine: machinesList[0],
+                          machine: machinesList[6],
+                          stackedMachine: machinesList[7],
+                          isStacked: true,
                         ),
                         MachineButton(
-                          // machineNumber: '10',
                           width: 80,
                           height: 80,
-                          machine: machinesList[1],
+                          machine: machinesList[8],
                         ),
                         const SizedBox(height: 32),
                         Container(
@@ -82,17 +87,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             const SizedBox(width: 40),
                             MachineButton(
-                              // machineNumber: 'cookie',
                               width: 80,
                               height: 80,
-                              machine: machinesList[1],
+                              machine: machinesList[9],
                             ),
                             const SizedBox(width: 40),
                             MachineButton(
-                              // machineNumber: 'coffee',
                               width: 80,
                               height: 80,
-                              machine: machinesList[1],
+                              machine: machinesList[10],
                             ),
                           ],
                         ),

@@ -1,7 +1,7 @@
 import 'package:laverie/models/machine_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/** this class corresponds to the table position in the database. */
+/// this class corresponds to the table position in the database.
 class MachinesHolder {
   int position;
   List<MachineModel>
@@ -36,5 +36,13 @@ class MachinesHolder {
         .in_('id', machineIds);
 
     return machines;
+  }
+
+  String machinesToString() {
+    String result = "";
+
+    this.stackedMachines.forEach((e) => "${result}/${e.machineName}");
+
+    return result;
   }
 }
