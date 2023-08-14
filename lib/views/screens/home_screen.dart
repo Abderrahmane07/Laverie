@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laverie/models/laundry_model.dart';
 import 'package:laverie/models/machine_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -13,6 +14,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late List<MachineModel> machinesList = [];
+  late LaundryModel laundry = LaundryModel(
+      id: '',
+      createdAt: DateTime.now(),
+      ownerNumber: '',
+      opensAt: DateTime.now(),
+      closesAt: DateTime.now(),
+      name: '',
+      location: '');
 
   Future<void> _machinesData() async {
     try {
@@ -27,27 +36,87 @@ class _MyHomePageState extends State<MyHomePage> {
       machinesList = data
           .map((machineData) => MachineModel.fromJson(machineData))
           .toList();
+
+      final laundryResponse = await Supabase.instance.client
+          .from('laundries')
+          .select()
+          .eq('id', 'eb16c09e-4a36-4d8e-a790-5556b36273e5');
+      laundry = LaundryModel.fromJson(laundryResponse[0]);
+      print(laundry.name);
     } catch (e) {
       print(e);
     }
+  }
+
+  void openDialogForLaundry() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            "Informations sur la laverie",
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Nom : ${laundry.name}",
+              ),
+              Text(
+                "Adresse : ${laundry.location}",
+              ),
+              Text(
+                "Ouverture : ${laundry.opensAt.hour}:${laundry.opensAt.minute}",
+              ),
+              Text(
+                "Fermeture : ${laundry.closesAt.hour}:${laundry.closesAt.minute}",
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Okey'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 115, 125, 212),
+      appBar: AppBar(
+        title: FutureBuilder(
+          future: _machinesData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Text('Laverie ${laundry.name}');
+            } else {
+              return const Text('Laverie');
+            }
+          },
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              openDialogForLaundry();
+            },
+            icon: const Icon(Icons.info_outline),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.grey,
-              child: const Center(child: Text('ad zone')),
-            ),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 160,
+              height: MediaQuery.of(context).size.height - 180,
               child: FutureBuilder(
                 future: _machinesData(),
                 builder: (context, snapshot) {
@@ -86,16 +155,42 @@ class _MyHomePageState extends State<MyHomePage> {
                         Row(
                           children: [
                             const SizedBox(width: 40),
-                            MachineButton(
-                              width: 80,
+                            // MachineButton(
+                            //   width: 80,
+                            //   height: 80,
+                            //   machine: machinesList[9],
+                            // ),
+                            Container(
                               height: 80,
-                              machine: machinesList[9],
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Center(
+                                  child: Icon(Icons.cookie_outlined)),
                             ),
                             const SizedBox(width: 40),
-                            MachineButton(
-                              width: 80,
+                            // MachineButton(
+                            //   width: 80,
+                            //   height: 80,
+                            //   machine: machinesList[10],
+                            // ),
+                            Container(
                               height: 80,
-                              machine: machinesList[10],
+                              width: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Center(
+                                  child: Icon(Icons.coffee_outlined)),
                             ),
                           ],
                         ),
